@@ -1,40 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
 
-## Getting Started
+## .ENV example
 
-First, run the development server:
+# 🔒 Chaves Secretas (Nunca partilhar!)
+JWT_SECRET=super_secreto_que_nunca_deves_compartilhar
+CRYPTO_SECRET=outra_chave_super_secreta
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+# 🔑 Configuração do Administrador (testing purposes)
+ADMIN_WALLET=0xC7A4ABd1454088deCD8B0829992BB47f7fD49974
+Metamask (12 seeds) : awful float egg lab guard scatter chalk crack element strike oval start
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# 🗄️ NOME DA BASE DE DADOS
+DB_NAME=nextdatabase
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+# 🗄️ Configuração da Base de Dados REMOTE
+DB_HOSTNAME=
+DB_USER=
+DB_PASSWORD=
+DB_SSL_CA_BASE64=
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+POSTMAN_ALLOWED=true
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+# 🌍 Configuração do CORS
+# 🚀 Em produção, apenas permitir domínios autorizados
+CORS_ALLOWED_ORIGINS_REMOTE=https://*.vercel.app,https://*.vercel.app
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
+# 🌍 URLs do Frontend e Backoffice em Produção
+FRONTEND_URL_REMOTE=https://*.vercel.app
+BACKOFFICE_URL_REMOTE=https://*.vercel.app
+APIS_URL_REMOTE=https://*.vercel.app
 
-To learn more about Next.js, take a look at the following resources:
+# 🛠️ Blockchain Node ETH em mainnet (Blockchain production node environment
+BLOCKCHAIN_RPC_URL=https://rpc.ankr.com/eth
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+## NPM INSTALL NODE MODULES * A considerar ******************************************
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# 🛠️ MySQL node module (v2)
+npm install mysql2
 
-## Deploy on Vercel
+# 🛠️ Encrypt and Decrypt Password (Login & Register)
+npm install bcrypt
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# 🛠️ Obscure/Hidden and Protected environment
+npm install dotenv
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+# 🛠️ To prevent bots trying to guess with spraying (express-rate-limit).
+npm install express-rate-limit
+
+# 🛠️ Blockchain Ethereum node modules
+npm install ethers
+
+# 🛠️ Styling Messages
+npm install react-toastify
+
+# 🛠️ Create and Manage JWT Tokens
+npm install jsonwebtoken
+
+# 🛠️ Create and Manage Cookies
+npm install cookie
+
+# 🛠️ Create and Manage API calls fetching services
+npm install axios
+
+*****************************************************************
+
+Em qualquer API privada, basta adicionar o middleware:
+
+import { authenticateToken } from "../../lib/auth";
+export default async function handler(req, res) {
+  authenticateToken(req, res, async () => {
+    res.status(200).json({ message: "Acesso permitido!" });
+  });
+}
+
++
+
+// Garante o bloqueio de CORS - Cross-Origin Resource Sharing.
+import { allowCors } from "../../lib/cors";
+
+...
+
+export default allowCors(handler);
+
+******************************************************************
