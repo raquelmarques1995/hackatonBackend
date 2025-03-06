@@ -22,8 +22,13 @@ export function allowCors(handler) {
     }
 
     // 🔹 Define os cabeçalhos CORS corretamente
-    res.setHeader("Access-Control-Allow-Origin", isPublicAPI ? "*" : origin);
-    res.setHeader("Access-Control-Allow-Credentials", isPublicAPI ? "false" : "true"); // ⚠ Não pode ser "true" com "*"
+    if (isPublicAPI) {
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Access-Control-Allow-Credentials", "false"); // ⚠ Não pode ser "true" com "*"
+    } else {
+      res.setHeader("Access-Control-Allow-Origin", origin);
+      res.setHeader("Access-Control-Allow-Credentials", "true");
+    }
     res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS, POST, PUT, DELETE");
     res.setHeader(
       "Access-Control-Allow-Headers",
