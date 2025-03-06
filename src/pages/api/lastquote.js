@@ -1,5 +1,5 @@
 import pool from '../../lib/db';
-import { allowCors } from "../../lib/cors";
+import { allowCors } from "../../lib/nocors";
 
 
 async function handler(req, res) {
