@@ -3,7 +3,7 @@ import axios from 'axios';
 export default async function handler(req, res) {
   try {
     // Faz a requisição para a API externa
-    const response = await axios.get('https://api.quotable.io/random');
+    const response = await axios.get('https://quotes-api-self.vercel.app/quote');
     
     // Retorna a citação
     res.status(200).json(response.data);
