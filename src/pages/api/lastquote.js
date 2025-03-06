@@ -1,9 +1,7 @@
 import pool from '../../lib/db';
 import { allowCors } from "../../lib/cors";
 
-
-
-async function handler(req, res) {
+export async function handler(req, res) {
   let connection;
   try {
     // Obtém uma conexão do pool
