@@ -1,9 +1,8 @@
 import axios from 'axios';
 import pool from '../../lib/db';
-import { allowCors } from "../../lib/cors";
 
 
-async function handler(req, res) {
+export default async function handler(req, res) {
   let connection;
   try {
     // Faz a requisição para a API externa
@@ -27,5 +26,3 @@ async function handler(req, res) {
     if (connection) connection.release();
   }
 }
-// Garante o bloqueio de CORS - Cross-Origin Resource Sharing.
-export default allowCors(handler);
