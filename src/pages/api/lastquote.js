@@ -1,27 +1,6 @@
 import pool from '../../lib/db';
-import Cors from 'cors';
-
-// Inicializa o middleware CORS
-const cors = Cors({
-    methods: ['GET', 'HEAD'],
-    origin: 'https://quotable-ruddy.vercel.app', // Substitua pelo seu domínio
-  });
-  
-  // Função para executar o middleware
-  function runMiddleware(req, res, fn) {
-    return new Promise((resolve, reject) => {
-      fn(req, res, (result) => {
-        if (result instanceof Error) {
-          return reject(result);
-        }
-        return resolve(result);
-      });
-    });
-  }
- 
 
 export default async function handler(req, res) {
-    await runMiddleware(req, res, cors);
   let connection;
   try {
     // Obtém uma conexão do pool

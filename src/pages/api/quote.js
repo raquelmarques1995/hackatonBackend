@@ -1,27 +1,7 @@
 import axios from 'axios';
 import pool from '../../lib/db';
-import Cors from 'cors';
-
-// Inicializa o middleware CORS
-const cors = Cors({
-    methods: ['GET', 'HEAD'],
-    origin: 'api-raquel.nstech.pt', // Substitua pelo seu domínio
-  });
-  
-  // Função para executar o middleware
-  function runMiddleware(req, res, fn) {
-    return new Promise((resolve, reject) => {
-      fn(req, res, (result) => {
-        if (result instanceof Error) {
-          return reject(result);
-        }
-        return resolve(result);
-      });
-    });
-  }
 
 export default async function handler(req, res) {
-    await runMiddleware(req, res, cors);
   let connection;
   try {
     // Faz a requisição para a API externa
