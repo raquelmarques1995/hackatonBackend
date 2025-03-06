@@ -29,6 +29,12 @@ export function allowCors(handler) {
       res.setHeader("Access-Control-Allow-Origin", origin);
       res.setHeader("Access-Control-Allow-Credentials", "true");
     }
+
+    // Verificação adicional para garantir que Access-Control-Allow-Origin não seja * quando Access-Control-Allow-Credentials for true
+    if (res.getHeader("Access-Control-Allow-Credentials") === "true" && res.getHeader("Access-Control-Allow-Origin") === "*") {
+      res.setHeader("Access-Control-Allow-Origin", origin);
+    }
+
     res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS, POST, PUT, DELETE");
     res.setHeader(
       "Access-Control-Allow-Headers",

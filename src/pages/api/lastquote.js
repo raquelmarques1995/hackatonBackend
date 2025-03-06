@@ -2,6 +2,7 @@ import pool from '../../lib/db';
 import { allowCors } from "../../lib/cors";
 
 
+
 async function handler(req, res) {
   let connection;
   try {
@@ -11,6 +12,13 @@ async function handler(req, res) {
     // Faz o SELECT do último valor inserido na tabela quote
     const query = 'SELECT * FROM quote ORDER BY id DESC LIMIT 1';
     const [rows] = await connection.query(query);
+    const user = verifyToken(req.headers.authorization);
+
+    if (user) {
+      res.status(200).json({ message: 'Quote fetched successfully', quote: rows[0] });
+    } else {
+      res.status(401).json({ error: 'Unauthorized' });
+    }
 
     // Verifica se encontrou algum resultado
     if (rows.length > 0) {
