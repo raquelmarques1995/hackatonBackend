@@ -1,22 +1,30 @@
 import pool from '../../lib/db';
 import { allowCors } from "../../lib/cors";
+import { verifyToken } from "../../lib/auth"; // Assumindo que você tem a função verifyToken
 
-export async function handler(req, res) {
+async function handler(req, res) {
+  if (req.method !== "GET") {
+    return res.status(405).json({ error: "Método não permitido" });
+  }
+
   let connection;
   try {
+    // =9 Valida o token JWT e obtém os dados do utilizador autenticado
+    console.log(" Cabeçalho Authorization recebido:", req.headers.authorization);
+    const user = verifyToken(req.headers.authorization);
+    console.log(" Token decodificado:", user);
+    
+    // Caso o token seja inválido ou expirado
+    if (!user) {
+      return res.status(401).json({ error: "Token inválido ou expirado" });
+    }
+
     // Obtém uma conexão do pool
     connection = await pool.getConnection();
     
     // Faz o SELECT do último valor inserido na tabela quote
     const query = 'SELECT * FROM quote ORDER BY id DESC LIMIT 1';
     const [rows] = await connection.query(query);
-    const user = verifyToken(req.headers.authorization);
-
-    if (user) {
-      res.status(200).json({ message: 'Quote fetched successfully', quote: rows[0] });
-    } else {
-      res.status(401).json({ error: 'Unauthorized' });
-    }
 
     // Verifica se encontrou algum resultado
     if (rows.length > 0) {
